@@ -9,18 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #000000;
-      --canvas: #09090b;
-      --surface: rgba(255, 255, 255, 0.03);
-      --surface-hover: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(168, 85, 247, 0.4);
-      --apple-blue: #0071e3;
-      --apple-purple: #a855f7;
-      --apple-purple-glow: rgba(168, 85, 247, 0.2);
-      --text: #f5f5f7;
+      --bg: #f5f5f7;
+      --canvas: #ffffff;
+      --surface: rgba(255, 255, 255, 0.65);
+      --surface-hover: rgba(255, 255, 255, 0.95);
+      --border: rgba(0, 0, 0, 0.08);
+      --border-accent: rgba(0, 113, 227, 0.4);
+      --accent: #0071e3;
+      --accent-glow: rgba(0, 113, 227, 0.15);
+      --text: #1d1d1f;
       --text-muted: #86868b;
-      --text-dim: #424245;
+      --text-dim: #6e6e73;
       --mono: 'JetBrains Mono', monospace;
     }
 
@@ -35,36 +34,36 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── TOP NAV (APPLE STYLE) ── */
+    /* ── TOP NAV (APPLE LIGHT STYLE) ── */
     .blur-nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
       border-bottom: 1px solid var(--border);
       padding: 0 32px; height: 54px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .nav-brand { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
     .nav-links { display: flex; list-style: none; gap: 24px; }
-    .nav-links a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a { font-size: 0.75rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; font-weight: 500; }
     .nav-links a:hover { color: var(--text); }
-    .nav-cta { color: var(--apple-purple) !important; font-weight: 600; }
+    .nav-cta { color: var(--accent) !important; font-weight: 600; }
 
     /* ── HERO HIFI ── */
     .hero-container {
       position: relative; padding: 100px 24px 80px; text-align: center;
-      background: radial-gradient(circle at 50% -20%, var(--apple-purple-glow) 0%, transparent 55%);
+      background: radial-gradient(circle at 50% -20%, var(--accent-glow) 0%, transparent 55%);
       border-bottom: 1px solid var(--border);
     }
     .hero-eyebrow {
       font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--apple-purple); margin-bottom: 16px;
+      color: var(--accent); margin-bottom: 16px;
     }
     .hero-title {
       font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 18px;
     }
     .hero-title span {
-      background: linear-gradient(180deg, #ffffff 0%, var(--text-muted) 100%);
+      background: linear-gradient(180deg, #1d1d1f 0%, #6e6e73 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero-desc { font-size: 1.05rem; color: var(--text-muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
@@ -84,25 +83,28 @@
     /* GLASS CARDS & PERSPECTIVE GRID */
     .glass-card {
       background: var(--surface);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid var(--border); border-radius: 18px; padding: 24px;
-      transition: border-color 0.3s, background 0.3s;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+      transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
       transform-style: preserve-3d; transform: perspective(1000px);
     }
-    .glass-card:hover { border-color: rgba(255,255,255,0.15); background: var(--surface-hover); }
+    .glass-card:hover { border-color: rgba(0, 0, 0, 0.15); background: var(--surface-hover); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06); }
 
     /* TIPS ENGINE */
     .tip-box { display: flex; flex-direction: column; gap: 12px; }
-    .tip-cat { font-family: var(--mono); font-size: 0.6rem; color: var(--apple-purple); font-weight: 700; }
+    .tip-cat { font-family: var(--mono); font-size: 0.6rem; color: var(--accent); font-weight: 700; }
     .tip-heading { font-size: 0.88rem; font-weight: 700; line-height: 1.4; color: var(--text); }
-    .tip-paragraph { font-size: 0.78rem; line-height: 1.6; color: var(--text-muted); }
+    .tip-paragraph { font-size: 0.78rem; line-height: 1.6; color: var(--text-dim); }
     .tip-footer-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-    .tip-indicator { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); }
+    .tip-indicator { font-family: var(--mono); font-size: 0.65rem; color: var(--text-muted); }
     .btn-action-sm {
-      background: transparent; border: 1px solid var(--border); color: var(--text);
-      padding: 6px 12px; border-radius: 20px; font-size: 0.68rem; cursor: pointer; transition: background 0.2s;
+      background: var(--canvas); border: 1px solid var(--border); color: var(--text);
+      padding: 6px 12px; border-radius: 20px; font-size: 0.68rem; cursor: pointer; transition: background 0.2s; font-weight: 500;
     }
-    .btn-action-sm:hover { background: rgba(255,255,255,0.05); }
+    .btn-action-sm:hover { background: #e5e5ea; }
+    .tip-progress { height: 3px; background: rgba(0,0,0,0.05); margin-top: 8px; border-radius: 4px; overflow: hidden; }
+    .tip-progress-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
 
     /* NOTAS CENTRALES Y VIDEOS INDEPENDIENTES */
     .main-feed { display: flex; flex-direction: column; gap: 32px; }
@@ -111,81 +113,81 @@
 
     .nota-card-premium { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 18px; }
     .nota-top-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); }
-    .tag-pill-apple { font-size: 0.65rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
-    .nota-card-premium.teal-variant .tag-pill-apple { color: var(--teal); }
+    .tag-pill-apple { font-size: 0.65rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: rgba(0,0,0,0.04); border: 1px solid var(--border); color: var(--text-dim); }
     
     .nota-title-h2 { font-size: 1.25rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; color: var(--text); }
-    .nota-desc-p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+    .nota-desc-p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.6; }
     
     /* REPRODUCTOR ELEGANTE APPLE 16:9 */
     .apple-video-frame {
-      width: 100%; aspect-ratio: 16/9; background: #0c0c0e; border-radius: 12px;
-      border: 1px solid var(--border); position: relative; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
+      width: 100%; aspect-ratio: 16/9; background: #000000; border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.1); position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
     .apple-video-frame::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
+      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.5) 100%);
     }
     .play-blur-circle {
-      width: 48px; height: 48px; background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%;
-      display: grid; place-items: center; color: var(--text); z-index: 2;
+      width: 48px; height: 48px; background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%;
+      display: grid; place-items: center; color: #ffffff; z-index: 2;
       transition: transform 0.2s, background 0.2s;
     }
-    .apple-video-frame:hover .play-blur-circle { transform: scale(1.08); background: rgba(255, 255, 255, 0.15); }
+    .apple-video-frame:hover .play-blur-circle { transform: scale(1.08); background: rgba(255, 255, 255, 0.35); }
     .video-timeline-sim {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.1); z-index: 3;
+      position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.2); z-index: 3;
     }
-    .video-timeline-progress { width: 30%; height: 100%; background: var(--text-muted); }
-    .nota-card-premium.teal-variant .video-timeline-progress { background: var(--teal); }
+    .video-timeline-progress { width: 30%; height: 100%; background: #ffffff; }
 
     /* ENGINE IA (ESTILO APPLE INTELLIGENCE) */
     .apple-ia-panel {
-      background: linear-gradient(180deg, rgba(168,85,247,0.03) 0%, rgba(0,0,0,0) 100%), var(--surface);
+      background: linear-gradient(180deg, rgba(0,113,227,0.03) 0%, rgba(255,255,255,0) 100%), var(--surface);
       border: 1px solid var(--border); border-radius: 24px; padding: 32px; margin-top: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.03);
     }
     .ia-brand-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
     .ia-brand-name { font-size: 0.8rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
-    .ia-status-pill { font-size: 0.6rem; color: #22c55e; border: 1px solid rgba(34,197,94,0.2); background: rgba(34,197,94,0.05); padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+    .ia-status-pill { font-size: 0.6rem; color: #10b981; border: 1px solid rgba(16,185,129,0.2); background: rgba(16,185,129,0.08); padding: 2px 8px; border-radius: 12px; font-weight: 600; }
     
     .ia-input-wrapper { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
     .ia-field-input {
-      background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px;
+      background: var(--canvas); border: 1px solid var(--border); border-radius: 12px;
       padding: 14px 16px; font-family: inherit; font-size: 0.9rem; color: var(--text); outline: none; width: 100%;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .ia-field-input:focus { border-color: var(--border-accent); }
+    .ia-field-input:focus { border-color: var(--border-accent); box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
     
     .ia-grid-selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .ia-select-node {
-      background: #09090b; border: 1px solid var(--border); border-radius: 10px;
+      background: var(--canvas); border: 1px solid var(--border); border-radius: 10px;
       padding: 10px; font-family: inherit; font-size: 0.8rem; color: var(--text); outline: none; cursor: pointer;
     }
     
-    .btn-apple-purple {
-      width: 100%; background: var(--apple-purple); color: #ffffff; border: none;
+    .btn-apple-primary {
+      width: 100%; background: var(--accent); color: #ffffff; border: none;
       padding: 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 600;
       cursor: pointer; transition: opacity 0.2s, transform 0.15s;
     }
-    .btn-apple-purple:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-apple-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    .ia-response-screen { background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border); border-radius: 14px; margin-top: 20px; min-height: 40px; }
-    .ia-empty-msg { padding: 24px; text-align: center; font-size: 0.78rem; color: var(--text-dim); }
+    .ia-response-screen { background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border); border-radius: 14px; margin-top: 20px; min-height: 40px; }
+    .ia-empty-msg { padding: 24px; text-align: center; font-size: 0.78rem; color: var(--text-muted); }
     
     /* Loader & Dynamic Render */
     .skeleton-box { padding: 24px; display: flex; flex-direction: column; gap: 10px; }
-    .skeleton-bar { height: 12px; background: linear-gradient(90deg, #111116 0%, #1c1c24 50%, #111116 100%); background-size: 200% 100%; animation: loading-shimmer 1.5s infinite; border-radius: 4px; }
+    .skeleton-bar { height: 12px; background: linear-gradient(90deg, #e5e5ea 0%, #f2f2f7 50%, #e5e5ea 100%); background-size: 200% 100%; animation: loading-shimmer 1.5s infinite; border-radius: 4px; }
     @keyframes loading-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
     .render-payload { padding: 24px; display: none; animation: fadeInView 0.4s ease forwards; }
-    .render-card-node { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .render-card-node { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.06); }
     .render-card-node:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-    .render-title-label { font-size: 0.72rem; font-weight: 700; color: var(--apple-purple); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.02em; }
-    .render-body-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .render-title-label { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.02em; }
+    .render-body-text { font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; }
+    .render-body-text strong { color: var(--text); }
     .render-pill-box { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .render-pill-item { font-family: var(--mono); font-size: 0.62rem; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.04); color: var(--text); border: 1px solid var(--border); }
+    .render-pill-item { font-family: var(--mono); font-size: 0.62rem; padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,0.04); color: var(--text-dim); border: 1px solid var(--border); }
 
     /* META INFO SIDEBAR */
     .meta-list-block { display: flex; flex-direction: column; gap: 12px; font-size: 0.78rem; }
@@ -195,9 +197,9 @@
     .meta-list-val { font-weight: 600; color: var(--text); }
     
     .chart-box-apple { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-    .chart-bar-node { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; }
+    .chart-bar-node { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); }
     .chart-bar-bg { height: 4px; width: 55%; background: var(--border); border-radius: 10px; overflow: hidden; }
-    .chart-bar-fill { height: 100%; background: var(--apple-purple); border-radius: 10px; }
+    .chart-bar-fill { height: 100%; background: var(--text-muted); border-radius: 10px; }
 
     @keyframes fadeInView { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
@@ -270,7 +272,7 @@
       <span class="feed-label">02 Artículos</span>
     </div>
 
-    <!-- NOTA 01 (CON CONTENEDOR DE VIDEO FLOTANTE 16:9) -->
+    <!-- NOTA 01 -->
     <div class="glass-card" data-tilt>
       <div class="nota-card-premium">
         <div class="nota-top-meta">
@@ -280,7 +282,6 @@
         <h2 class="nota-title-h2">El cansancio del contenido perfecto: por qué internet está cambiando otra vez</h2>
         <p class="nota-desc-p">Los algoritmos premiaron durante años la eficiencia técnica. Ahora las audiencias buscan algo diferente: autenticidad. Videos simples, espontáneos y menos producidos logran millones de visitas y rompen con la fatiga del diseño masificado.</p>
         
-        <!-- VIDEO INTERACTIVO MAQUETADO -->
         <div class="apple-video-frame" onclick="location.href='nota1.html'">
           <div class="play-blur-circle">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -290,22 +291,21 @@
         
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <span style="font-size:0.75rem; color:var(--text-muted);">Lectura: ~4 min</span>
-          <a href="nota1.html" style="font-size:0.75rem; color:var(--apple-purple); text-decoration:none; font-weight:600;">Ver artículo completo →</a>
+          <a href="nota1.html" style="font-size:0.75rem; color:var(--accent); text-decoration:none; font-weight:600;">Ver artículo completo →</a>
         </div>
       </div>
     </div>
 
-    <!-- NOTA 02 (CON CONTENEDOR DE VIDEO FLOTANTE 16:9) -->
-    <div class="glass-card (variant)" data-tilt>
-      <div class="nota-card-premium teal-variant">
+    <!-- NOTA 02 -->
+    <div class="glass-card" data-tilt>
+      <div class="nota-card-premium">
         <div class="nota-top-meta">
-          <span class="tag-pill-apple" style="color:#14b8a6;">Bienestar Digital</span>
+          <span class="tag-pill-apple">Bienestar Digital</span>
           <span>NOTA 02</span>
         </div>
         <h2 class="nota-title-h2">La presión de ser constante: el desgaste silencioso detrás de crear contenido</h2>
         <p class="nota-desc-p">"Publica todos los días" se volvió una trampa de distribución. El burnout creativo es el precio oculto exigido por los feeds proactivos de engagement continuo, empujando a los creadores hacia rutinas de producción industrial.</p>
         
-        <!-- VIDEO INTERACTIVO MAQUETADO -->
         <div class="apple-video-frame" onclick="location.href='nota2.html'">
           <div class="play-blur-circle">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -315,12 +315,12 @@
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <span style="font-size:0.75rem; color:var(--text-muted);">Lectura: ~5 min</span>
-          <a href="nota2.html" style="font-size:0.75rem; color:#14b8a6; text-decoration:none; font-weight:600;">Ver artículo completo →</a>
+          <a href="nota2.html" style="font-size:0.75rem; color:var(--accent); text-decoration:none; font-weight:600;">Ver artículo completo →</a>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN IA INTERACTIVA (ESTILO APPLE INTELLIGENCE) -->
+    <!-- SECCIÓN IA INTERACTIVA -->
     <div class="feed-heading-wrap" id="ia-anchor" style="margin-top:24px;">
       <span class="feed-label">Procesamiento Automatizado</span>
       <span class="feed-label">Google AI Studio Node</span>
@@ -328,7 +328,7 @@
 
     <div class="apple-ia-panel">
       <div class="ia-brand-row">
-        <span class="ia-brand-name">Apple Intelligence Concept Engine</span>
+        <span class="ia-brand-name">Intelligence Concept Engine</span>
         <span class="ia-status-pill">GEMINI PRO LNK</span>
       </div>
 
@@ -349,7 +349,7 @@
         </select>
       </div>
 
-      <button class="btn-apple-purple" onclick="triggerAISimulation()">Generar Escaleta de Distribución</button>
+      <button class="btn-apple-primary" onclick="triggerAISimulation()">Generar Escaleta de Distribución</button>
 
       <div class="ia-response-screen" id="responseBox">
         <div class="ia-empty-msg" id="placeholderMsg">// El motor estratégico procesará las métricas del nicho ingresado</div>
@@ -365,8 +365,8 @@
       <div class="meta-list-block">
         <div class="meta-list-row"><span class="meta-list-key">Ecosistema</span><span class="meta-list-val">2026 V3</span></div>
         <div class="meta-list-row"><span class="meta-list-key">Casos</span><span class="meta-list-val">02</span></div>
-        <div class="meta-list-row"><span class="meta-list-key">Dataset IA</span><span class="meta-list-val" style="color:var(--apple-purple)">09 Tips</span></div>
-        <div class="meta-list-row"><span class="meta-list-key">Server</span><span class="meta-list-val" style="color:#22c55e">Online</span></div>
+        <div class="meta-list-row"><span class="meta-list-key">Dataset IA</span><span class="meta-list-val" style="color:var(--accent)">09 Tips</span></div>
+        <div class="meta-list-row"><span class="meta-list-key">Server</span><span class="meta-list-val" style="color:#10b981">Online</span></div>
       </div>
     </div>
 
@@ -375,15 +375,15 @@
       <div class="chart-box-apple">
         <div class="chart-bar-node">
           <span>TikTok Feed</span>
-          <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 78%;"></div></div>
+          <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 78%; background: var(--accent);"></div></div>
         </div>
         <div class="chart-bar-node">
           <span>Instagram</span>
-          <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 62%; background: var(--text-muted);"></div></div>
+          <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 62%;"></div></div>
         </div>
         <div class="chart-bar-node">
           <span>YouTube SEO</span>
-          <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 45%; background: #14b8a6;"></div></div>
+          <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 45%;"></div></div>
         </div>
       </div>
     </div>
@@ -391,7 +391,6 @@
 
 </main>
 
-<!-- ── LOGIC SCRIPTS (PRESERVADOS DESDE LA BASE ORIGINAL) ── -->
 <script>
 const TIPS = [
   { cat:"ALGORITMOS",   title:"Por qué tus Reels dejan de mostrarse después de una hora",   body:"Instagram prueba inicialmente el contenido con grupos pequeños antes de decidir si seguir distribuyéndolo. La retención manda: si la gente no termina tu video, el algoritmo lo interpreta como señal negativa y corta la distribución." },
@@ -482,7 +481,7 @@ function triggerAISimulation() {
   }, 1600);
 }
 
-/* ── PERSPECTIVA INTEGRADA (TILT REACTION) ── */
+/* ── PERSPECTIVA INTEGRADA (TILT REACTION LIGHT MODE) ── */
 document.querySelectorAll('[data-tilt]').forEach(element => {
   element.addEventListener('mousemove', e => {
     const dimensions = element.getBoundingClientRect();
@@ -492,7 +491,7 @@ document.querySelectorAll('[data-tilt]').forEach(element => {
     const factorY = (e.clientY - centerY) / (dimensions.height / 2);
     
     element.style.transform = `perspective(1000px) rotateX(${-factorY * 6}deg) rotateY(${factorX * 6}deg) scale3d(1.01, 1.01, 1.01)`;
-    element.style.boxShadow = `0 20px 40px rgba(0,0,0,0.7), ${factorX * 10}px ${factorY * 10}px 30px rgba(168,85,247,0.05)`;
+    element.style.boxShadow = `0 20px 40px rgba(0,0,0,0.08), ${factorX * 10}px ${factorY * 10}px 30px rgba(0,113,227,0.05)`;
   });
 
   element.addEventListener('mouseleave', () => {
