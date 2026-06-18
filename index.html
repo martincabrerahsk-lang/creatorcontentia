@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Comunicación Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0a0a0c;
+      --surface:   #111116;
+      --surface2:  #18181f;
+      --border:    #252530;
+      --border-accent: #7c3aed;
+      --violet:    #7c3aed;
+      --violet-lt: #a78bfa;
+      --green:     #22c55e;
+      --yellow:    #fbbf24;
+      --teal:      #14b8a6;
+      --text:      #f1f5f9;
+      --text-muted:#64748b;
+      --text-dim:  #334155;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .topbar-brand span:first-child {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+    }
+    .topbar-brand span:last-child {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--violet-lt);
+      padding: 4px 10px;
+      border: 1px solid var(--border-accent);
+      border-left: none;
+      background: rgba(124,58,237,0.08);
+    }
+    .topbar-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      animation: pulse-dot 1.4s ease-in-out infinite;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 60px 24px 56px;
+      overflow: hidden;
+      border-bottom: 2px solid var(--border);
+    }
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% -10%, rgba(124,58,237,0.22) 0%, transparent 65%),
+        var(--bg);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.07) 1px, transparent 1px);
+      background-size: 48px 48px;
+      -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 10%, transparent 100%);
+      mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 10%, transparent 100%);
+      pointer-events: none;
+    }
+    /* Perspective depth lines */
+    .hero-perspective {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.08;
+    }
+    .hero-perspective svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--violet-lt);
+      padding: 5px 12px;
+      border: 1px solid rgba(139,92,246,0.35);
+      background: rgba(124,58,237,0.1);
+      margin-bottom: 22px;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 5.5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--violet-lt);
+    }
+    .hero-sub {
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 460px;
+      margin: 0 auto 28px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--violet);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 10px 20px;
+      border: 2px solid var(--violet);
+      text-decoration: none;
+      box-shadow: 4px 4px 0 rgba(124,58,237,0.4);
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .btn-primary:hover { box-shadow: 6px 6px 0 rgba(124,58,237,0.5); transform: translate(-1px,-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 10px 20px;
+      border: 2px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--text-dim); color: var(--text); }
+
+    /* ── MAIN 3-COLUMN LAYOUT ── */
+    .main-layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR SHARED ── */
+    .sidebar {
+      position: sticky;
+      top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      background: var(--violet);
+    }
+
+    /* ── TIPS PANEL (left sidebar) ── */
+    .tip-panel {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-top: 2px solid var(--violet);
+      box-shadow: 4px 4px 0 var(--border);
+      padding: 16px;
+    }
+    .tip-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .tip-sys-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--violet-lt);
+    }
+    #tip-cat-badge {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: var(--violet-lt);
+    }
+    .tip-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .tip-body {
+      font-size: 0.74rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .tip-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tip-index {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--text-dim);
+    }
+    .tip-refresh-btn {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 4px 9px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .tip-refresh-btn:hover { border-color: var(--violet); color: var(--violet-lt); }
+    .tip-progress {
+      height: 2px;
+      background: var(--border);
+      margin-top: 12px;
+    }
+    .tip-progress-fill {
+      height: 2px;
+      background: linear-gradient(90deg, var(--violet), var(--violet-lt));
+      transition: width 0.4s ease;
+    }
+
+    /* ── RIGHT SIDEBAR ── */
+    .meta-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      box-shadow: 4px 4px 0 var(--border);
+      padding: 16px;
+    }
+    .meta-card + .meta-card { margin-top: 0; }
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+    }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .meta-val {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.72rem;
+    }
+    .meta-val.green { color: var(--green); }
+    .meta-val.violet { color: var(--violet-lt); }
+
+    .cat-pill {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin: 2px;
+    }
+    .cat-pill.alg  { background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.3); color:var(--violet-lt); }
+    .cat-pill.cre  { background:rgba(251,191,36,0.08); border:1px solid rgba(251,191,36,0.25); color:var(--yellow); }
+    .cat-pill.story{ background:rgba(34,197,94,0.08);  border:1px solid rgba(34,197,94,0.25);  color:var(--green); }
+
+    /* ── CENTER COLUMN: NOTAS ── */
+    .notas-section {}
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-header-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .section-header-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-header-count {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--violet);
+      font-weight: 700;
+    }
+
+    /* ── NOTA CARD ── */
+    .nota-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      padding: 22px;
+      margin-bottom: 14px;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      /* Perspective shadow for depth */
+      box-shadow: 5px 5px 0 var(--border);
+    }
+    .nota-card::before {
+      /* Top accent bar */
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--violet);
+    }
+    .nota-card.teal::before { background: var(--teal); }
+    .nota-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 rgba(124,58,237,0.35);
+      border-color: rgba(124,58,237,0.4);
+    }
+    .nota-card.teal:hover {
+      box-shadow: 7px 7px 0 rgba(20,184,166,0.3);
+      border-color: rgba(20,184,166,0.4);
+    }
+
+    .nota-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .nota-cat-tag {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+    }
+    .nota-cat-tag.vio {
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: var(--violet-lt);
+    }
+    .nota-cat-tag.teal {
+      background: rgba(20,184,166,0.1);
+      border: 1px solid rgba(20,184,166,0.28);
+      color: #5eead4;
+    }
+    .nota-num {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--text-dim);
+    }
+
+    .nota-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.015em;
+      margin-bottom: 10px;
+    }
+    .nota-excerpt {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    .nota-readmore {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--violet-lt);
+      text-decoration: none;
+    }
+    .nota-card.teal .nota-readmore { color: #5eead4; }
+
+    /* Isometric depth accent on nota cards */
+    .nota-card .iso-corner {
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--border);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 32px;
+      border: 2px solid var(--border);
+      box-shadow: 4px 4px 0 var(--border);
+    }
+    .stat-block {
+      flex: 1;
+      padding: 14px 16px;
+      border-right: 2px solid var(--border);
+    }
+    .stat-block:last-child { border-right: none; }
+    .stat-block-label {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .stat-block-val {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--violet-lt);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .stat-block-sub {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes progress-fill { 0%{width:0%} 100%{width:100%} }
+    .fade-up { animation: fadeUp 0.45s ease forwards; }
+    .d1{animation-delay:0.05s;opacity:0} .d2{animation-delay:0.16s;opacity:0} .d3{animation-delay:0.28s;opacity:0}
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 16px 40px;
+      }
+      .sidebar { position: static; }
+      .sidebar-left { order: 2; }
+      .sidebar-right { order: 3; }
+      .notas-section { order: 1; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 40px 16px 40px; }
+      .hero-title { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<header class="topbar">
+  <div class="topbar-brand">
+    <span>Portal</span>
+    <span>Com&nbsp;Digital</span>
+  </div>
+  <div class="topbar-status">
+    <span class="live-dot"></span>
+    <span style="font-family:var(--mono);font-size:0.6rem;color:var(--green);letter-spacing:0.1em;">SISTEMA ACTIVO</span>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <!-- Perspective vanishing-point lines for depth -->
+  <div class="hero-perspective">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#7c3aed" stroke-width="0.8" fill="none">
+        <line x1="600" y1="150" x2="0"    y2="0"/>
+        <line x1="600" y1="150" x2="240"  y2="0"/>
+        <line x1="600" y1="150" x2="480"  y2="0"/>
+        <line x1="600" y1="150" x2="720"  y2="0"/>
+        <line x1="600" y1="150" x2="960"  y2="0"/>
+        <line x1="600" y1="150" x2="1200" y2="0"/>
+        <line x1="600" y1="150" x2="0"    y2="300"/>
+        <line x1="600" y1="150" x2="400"  y2="300"/>
+        <line x1="600" y1="150" x2="800"  y2="300"/>
+        <line x1="600" y1="150" x2="1200" y2="300"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <div class="fade-up d1 hero-eyebrow">Examen · Comunicación Digital · 2026</div>
+    <h1 class="fade-up d2 hero-title">Comunicar en<br/><em>la era digital</em></h1>
+    <p class="fade-up d3 hero-sub">Análisis, notas y herramientas para entender el ecosistema de contenido digital contemporáneo.</p>
+    <div class="fade-up d3 hero-ctas">
+      <a href="#notas" class="btn-primary">
+        Ver notas
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </a>
+      <a href="#" class="btn-secondary">Tips para creadores</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ROW ── -->
+<div style="max-width:1180px;margin:32px auto 0;padding:0 24px;">
+  <div class="stats-row">
+    <div class="stat-block">
+      <div class="stat-block-label">Notas</div>
+      <div class="stat-block-val">02</div>
+      <div class="stat-block-sub">Cultura · Bienestar</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">Tips de IA</div>
+      <div class="stat-block-val" style="color:var(--green);">09</div>
+      <div class="stat-block-sub">Algoritmos · Creatividad</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">Plataformas</div>
+      <div class="stat-block-val" style="color:var(--teal);">3</div>
+      <div class="stat-block-sub">TikTok · IG · YT</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">Estado</div>
+      <div class="stat-block-val" style="font-size:0.82rem;color:var(--green);">EN VIVO</div>
+      <div class="stat-block-sub">2026 · Actualizado</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN 3-COLUMN ── -->
+<main class="main-layout" id="notas">
+
+  <!-- LEFT SIDEBAR: TIPS WIDGET -->
+  <aside class="sidebar sidebar-left">
+    <div class="sidebar-label">Sistema de Tips</div>
+
+    <div class="tip-panel">
+      <div class="tip-header">
+        <span class="tip-sys-label">AI_TIPS.SYS</span>
+        <span id="tip-cat-badge">—</span>
+      </div>
+
+      <div id="tip-content">
+        <div class="tip-title" id="tip-title">Cargando...</div>
+        <div class="tip-body" id="tip-body"></div>
+      </div>
+
+      <div class="tip-progress">
+        <div class="tip-progress-fill" id="tip-progress-fill" style="width:0%"></div>
+      </div>
+
+      <div class="tip-nav" style="margin-top:10px;">
+        <span class="tip-index" id="tip-index-label">--/09</span>
+        <button class="tip-refresh-btn" onclick="loadTip()">↺ Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Tip categories legend -->
+    <div style="padding:12px;background:var(--surface);border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);">
+      <div class="sidebar-label" style="margin-bottom:10px;">Categorías</div>
+      <div>
+        <span class="cat-pill alg">Algoritmos</span>
+        <span class="cat-pill cre">Creatividad</span>
+        <span class="cat-pill story">Storytelling</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER: NOTAS -->
+  <div class="notas-section">
+    <div class="section-header">
+      <span class="section-header-label">Notas Centrales</span>
+      <div class="section-header-line"></div>
+      <span class="section-header-count">02</span>
+    </div>
+
+    <!-- Nota 01 -->
+    <a href="nota1.html" class="nota-card">
+      <div class="nota-meta-row">
+        <span class="nota-cat-tag vio">Tendencias · Cultura</span>
+        <span class="nota-num">NOTA 01</span>
+      </div>
+      <h2 class="nota-title">El cansancio del contenido perfecto: por qué internet está cambiando otra vez</h2>
+      <p class="nota-excerpt">Los algoritmos premiaron durante años la eficiencia técnica. Ahora las audiencias buscan algo diferente: autenticidad. Videos simples, espontáneos y menos producidos logran millones de visitas.</p>
+      <span class="nota-readmore">
+        Leer nota
+        <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </span>
+    </a>
+
+    <!-- Nota 02 -->
+    <a href="nota2.html" class="nota-card teal">
+      <div class="nota-meta-row">
+        <span class="nota-cat-tag teal">Bienestar Digital</span>
+        <span class="nota-num">NOTA 02</span>
+      </div>
+      <h2 class="nota-title">La presión de ser constante: el desgaste silencioso detrás de crear contenido</h2>
+      <p class="nota-excerpt">"Publica todos los días" se volvió una trampa. El burnout creativo es el precio oculto del algoritmo, y nadie habla del desgaste que esto puede provocar.</p>
+      <span class="nota-readmore" style="color:#5eead4;">
+        Leer nota
+        <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </span>
+    </a>
+
+    <!-- About box -->
+    <div style="border:2px solid var(--border);border-left:4px solid var(--yellow);padding:16px 18px;background:var(--surface);box-shadow:4px 4px 0 var(--border);">
+      <div style="font-family:var(--mono);font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:8px;">Sobre este portal</div>
+      <p style="font-size:0.8rem;line-height:1.65;color:var(--text-muted);">Espacio de análisis del ecosistema digital contemporáneo. Dos notas centrales, nueve tips de inteligencia artificial y datos actualizados para creadores de contenido y comunicadores.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR: META INFO -->
+  <aside class="sidebar sidebar-right">
+    <div class="sidebar-label">Datos del Portal</div>
+
+    <div class="meta-card">
+      <div class="meta-row">
+        <span class="meta-key">Año</span>
+        <span class="meta-val">2026</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Notas</span>
+        <span class="meta-val violet">02</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Tips IA</span>
+        <span class="meta-val green">09</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Plataformas</span>
+        <span class="meta-val">3</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Estado</span>
+        <span class="meta-val green">Activo</span>
+      </div>
+    </div>
+
+    <div class="meta-card" style="border-top:2px solid var(--green);">
+      <div style="font-family:var(--mono);font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Plataformas</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.72rem;">
+          <span style="color:var(--text-muted);">TikTok</span>
+          <div style="height:3px;width:60%;background:var(--border);border-radius:0;overflow:hidden;">
+            <div style="height:100%;width:78%;background:var(--violet);"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.72rem;">
+          <span style="color:var(--text-muted);">Instagram</span>
+          <div style="height:3px;width:60%;background:var(--border);overflow:hidden;">
+            <div style="height:100%;width:62%;background:var(--yellow);"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.72rem;">
+          <span style="color:var(--text-muted);">YouTube</span>
+          <div style="height:3px;width:60%;background:var(--border);overflow:hidden;">
+            <div style="height:100%;width:45%;background:var(--teal);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meta-card" style="border-top:2px solid var(--violet);">
+      <div style="font-family:var(--mono);font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--violet-lt);margin-bottom:10px;">Temas cubiertos</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);line-height:1.7;">
+        Algoritmos<br/>Autenticidad digital<br/>Burnout creativo<br/>Storytelling<br/>Tendencias 2026
+      </div>
+    </div>
+
+    <div style="padding:12px;background:var(--surface);border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="live-dot"></span>
+        <span style="font-family:var(--mono);font-size:0.58rem;color:var(--green);">SISTEMA ACTIVO</span>
+      </div>
+      <p style="font-family:var(--mono);font-size:0.58rem;color:var(--text-dim);line-height:1.6;margin-top:6px;">Portal de comunicación digital · Actualizado en tiempo real.</p>
+    </div>
+  </aside>
+
+</main>
+
+<script>
+const TIPS = [
+  { cat:"ALGORITMOS",   title:"Por qué tus Reels dejan de mostrarse después de una hora",   body:"Instagram prueba inicialmente el contenido con grupos pequeños antes de decidir si seguir distribuyéndolo. La retención manda: si la gente no termina tu video, el algoritmo lo interpreta como señal negativa y corta la distribución." },
+  { cat:"ALGORITMOS",   title:"Qué hacer cuando TikTok deja de recomendar tu contenido",    body:"Eliminar videos o publicar desesperadamente empeora el problema. Analiza qué estructuras fallaron y cambia el gancho. El algoritmo penaliza el pánico más que el silencio calculado." },
+  { cat:"ALGORITMOS",   title:"La verdad sobre los hashtags en 2026",                       body:"Ya no son el principal motor de descubrimiento. El algoritmo hoy prioriza las palabras habladas, el SEO de texto y el comportamiento del usuario más que cualquier etiqueta que puedas agregar." },
+  { cat:"CREATIVIDAD",  title:"Cómo encontrar un estilo propio sin copiar tendencias",      body:"Inspirarse es normal, pero repetir de forma exacta lo que hacen los demás destruye la identidad de tu canal. La diferencia entre inspiración e imitación define si construyes audiencia propia o prestada." },
+  { cat:"CREATIVIDAD",  title:"Qué publicar cuando sientes que ya se dijo todo",            body:"La diferencia casi nunca está en la temática, sino en la perspectiva única y la forma en que lo cuentas. El ángulo lo cambia todo: el mismo tema dicho desde tu experiencia es contenido original." },
+  { cat:"CREATIVIDAD",  title:"La obsesión por ser viral está matando la creatividad",      body:"Muchos creadores dejan de experimentar por miedo a perder alcance, volviéndose predecibles. Paradójicamente, lo que los hacía únicos al inicio era exactamente esa disposición a experimentar." },
+  { cat:"STORYTELLING", title:"Los primeros 3 segundos lo deciden todo",                    body:"La audiencia decide muy rápido si deslizar hacia arriba o quedarse. Un inicio lento regala tus visitas a tu competencia inmediatamente. No hay segunda oportunidad para una primera impresión." },
+  { cat:"STORYTELLING", title:"Cómo escribir hooks magnéticos",                             body:"Las preguntas retóricas, promesas de valor inmediato o frases inesperadas generan curiosidad instantánea. El hook no es el intro del video: es la razón por la que alguien decide invertir su atención." },
+  { cat:"STORYTELLING", title:"Qué hace que un video se sienta lento",                      body:"Las pausas muertas en la locución y las explicaciones sobre-desarrolladas provocan el abandono temprano. Edita con el ritmo del habla natural, no con el ritmo con el que escribiste el guión." }
+];
+
+const CAT_COLORS = {
+  "ALGORITMOS":  { bg:"rgba(124,58,237,0.12)", border:"rgba(124,58,237,0.3)", text:"#a78bfa" },
+  "CREATIVIDAD": { bg:"rgba(251,191,36,0.08)", border:"rgba(251,191,36,0.3)", text:"#fbbf24" },
+  "STORYTELLING":{ bg:"rgba(34,197,94,0.08)",  border:"rgba(34,197,94,0.3)",  text:"#4ade80" }
+};
+
+let curIdx = -1;
+function loadTip() {
+  let i;
+  do { i = Math.floor(Math.random() * TIPS.length); } while (i === curIdx && TIPS.length > 1);
+  curIdx = i;
+  const t = TIPS[i];
+  const c = CAT_COLORS[t.cat];
+
+  const badge = document.getElementById('tip-cat-badge');
+  badge.textContent = t.cat;
+  badge.style.background = c.bg;
+  badge.style.borderColor = c.border;
+  badge.style.color = c.text;
+
+  document.getElementById('tip-index-label').textContent = String(i+1).padStart(2,'0') + '/' + String(TIPS.length).padStart(2,'0');
+
+  const fill = document.getElementById('tip-progress-fill');
+  fill.style.width = '0%';
+  fill.style.background = c.text;
+  setTimeout(() => { fill.style.width = ((i+1)/TIPS.length * 100) + '%'; }, 50);
+
+  const content = document.getElementById('tip-content');
+  content.style.opacity = '0';
+  content.style.transform = 'translateY(6px)';
+  content.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+  setTimeout(() => {
+    document.getElementById('tip-title').textContent = t.title;
+    document.getElementById('tip-body').textContent = t.body;
+    content.style.opacity = '1';
+    content.style.transform = 'translateY(0)';
+  }, 200);
+}
+
+document.addEventListener('DOMContentLoaded', loadTip);
+</script>
+</body>
+</html>

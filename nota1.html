@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nota 01 · El cansancio del contenido perfecto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0a0a0c;
+      --surface:   #111116;
+      --surface2:  #18181f;
+      --border:    #252530;
+      --border-accent: #7c3aed;
+      --violet:    #7c3aed;
+      --violet-lt: #a78bfa;
+      --green:     #22c55e;
+      --yellow:    #fbbf24;
+      --teal:      #14b8a6;
+      --text:      #f1f5f9;
+      --text-muted:#94a3b8;
+      --text-dim:  #334155;
+      --mono:      'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; }
+
+    /* TOP BAR */
+    .topbar {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar a {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .topbar a:hover { color: var(--violet-lt); }
+    .topbar-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--violet-lt);
+      padding: 4px 10px;
+      border: 1px solid rgba(124,58,237,0.3);
+      background: rgba(124,58,237,0.08);
+    }
+    @keyframes pulse-dot {0%,100%{opacity:1}50%{opacity:0.3}}
+    .live-dot { width:6px;height:6px;border-radius:50%;background:var(--violet-lt);display:inline-block;animation:pulse-dot 1.4s ease-in-out infinite; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 52px 24px 48px;
+      border-bottom: 2px solid var(--border);
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% -5%, rgba(124,58,237,0.2) 0%, transparent 65%),
+        var(--bg);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 10%, transparent 100%);
+      mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 10%, transparent 100%);
+      pointer-events: none;
+    }
+    /* Perspective vanishing lines */
+    .hero-persp {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .cat-tag {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: var(--violet-lt);
+    }
+    .year-tag {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      color: var(--text-dim);
+    }
+    .hero-title {
+      font-size: clamp(1.7rem, 5vw, 2.9rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .hero-title span { color: var(--violet-lt); }
+    .hero-deck {
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+
+    /* Stats strip */
+    .stats-strip {
+      display: flex;
+      gap: 0;
+      border: 2px solid var(--border);
+      max-width: 480px;
+      box-shadow: 4px 4px 0 var(--border);
+    }
+    .stat-b {
+      flex: 1;
+      padding: 10px 14px;
+      border-right: 2px solid var(--border);
+    }
+    .stat-b:last-child { border-right: none; }
+    .stat-b-label { font-family:var(--mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-dim);margin-bottom:3px; }
+    .stat-b-val   { font-size:0.9rem;font-weight:800;color:var(--violet-lt);line-height:1.2; }
+    .stat-b-sub   { font-family:var(--mono);font-size:0.56rem;color:var(--text-dim);margin-top:2px; }
+
+    /* DIVIDER */
+    .divider { height:2px;background:var(--border);max-width:none;margin:0; }
+
+    /* LAYOUT */
+    .article-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* PROSE */
+    .article-body {}
+    .body-text {
+      font-size: clamp(0.875rem, 2.2vw, 1rem);
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 1.3rem;
+    }
+    .body-text.lead { color: #cbd5e1; font-size: clamp(0.9rem, 2.4vw, 1.05rem); font-weight: 500; }
+
+    .section-h {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 2.2rem 0 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.3;
+    }
+    .section-h::before {
+      content: '';
+      display: block;
+      width: 4px;
+      min-width: 4px;
+      height: 1.1em;
+      background: linear-gradient(to bottom, var(--violet), var(--violet-lt));
+    }
+
+    .pullquote {
+      position: relative;
+      margin: 2rem 0;
+      padding: 16px 18px 16px 20px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-left: 4px solid var(--violet);
+      box-shadow: 5px 5px 0 var(--border);
+    }
+    .pullquote::before {
+      content: '\201C';
+      position: absolute;
+      top: -8px; left: 12px;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: rgba(124,58,237,0.18);
+      font-family: Georgia, serif;
+    }
+    .pullquote p { font-style: italic; font-size: clamp(0.88rem,2.2vw,1rem); line-height: 1.6; color: var(--violet-lt); margin: 0; }
+    .pullquote cite { display:block;margin-top:8px;font-size:0.6rem;font-family:var(--mono);letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);font-style:normal; }
+
+    .hi-box {
+      background: rgba(124,58,237,0.07);
+      border: 2px solid rgba(124,58,237,0.18);
+      border-left: 4px solid var(--violet);
+      padding: 14px 16px;
+      margin: 1.5rem 0;
+    }
+    .hi-box p { color: var(--violet-lt); font-size: clamp(0.82rem,2.1vw,0.9rem); margin: 0; line-height: 1.65; }
+
+    .hi-box.green {
+      background: rgba(34,197,94,0.05);
+      border-color: rgba(34,197,94,0.18);
+      border-left-color: var(--green);
+    }
+    .hi-box.green p { color: #4ade80; }
+
+    /* Article footer */
+    .article-footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .article-footer span {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--text-dim);
+    }
+    .article-footer a {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--violet-lt);
+      text-decoration: none;
+      border: 1px solid rgba(124,58,237,0.3);
+      padding: 4px 10px;
+      transition: background 0.15s;
+    }
+    .article-footer a:hover { background: rgba(124,58,237,0.1); }
+
+    /* SIDEBAR */
+    .article-sidebar {
+      position: sticky;
+      top: 62px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      background: var(--violet);
+    }
+    .tip-panel {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-top: 2px solid var(--violet);
+      box-shadow: 4px 4px 0 var(--border);
+      padding: 16px;
+    }
+    .tip-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .tip-sys { font-family:var(--mono);font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--violet-lt); }
+    .tip-badge { font-family:var(--mono);font-size:0.52rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);color:var(--violet-lt); }
+    .tip-title-s { font-size:0.78rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:7px; }
+    .tip-body-s { font-size:0.71rem;line-height:1.6;color:var(--text-muted);margin-bottom:10px; }
+    .tip-progress-bar { height:2px;background:var(--border); }
+    .tip-progress-fill { height:2px;background:linear-gradient(90deg,var(--violet),var(--violet-lt));transition:width 0.4s ease; }
+    .tip-nav-s { display:flex;align-items:center;justify-content:space-between;margin-top:8px; }
+    .tip-idx-s { font-family:var(--mono);font-size:0.56rem;color:var(--text-dim); }
+    .tip-btn { font-family:var(--mono);font-size:0.55rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);background:transparent;border:1px solid var(--border);padding:3px 8px;cursor:pointer;transition:border-color 0.15s,color 0.15s; }
+    .tip-btn:hover { border-color:var(--violet);color:var(--violet-lt); }
+
+    .related-box {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      box-shadow: 4px 4px 0 var(--border);
+      padding: 14px;
+    }
+    .related-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .related-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .related-item-cat { font-family:var(--mono);font-size:0.54rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:4px; }
+    .related-item a { font-size:0.75rem;font-weight:600;color:var(--text-muted);text-decoration:none;line-height:1.4;display:block;transition:color 0.15s; }
+    .related-item a:hover { color:var(--text); }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .article-layout { grid-template-columns: 1fr; }
+      .article-sidebar { position:static; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 36px 16px 36px; }
+      .hero-title { font-size: 1.75rem; }
+      .article-layout { padding: 24px 16px 40px; }
+    }
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{animation:fadeUp 0.45s ease forwards}
+    .d1{animation-delay:0.05s;opacity:0}.d2{animation-delay:0.16s;opacity:0}.d3{animation-delay:0.28s;opacity:0}
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html">← Portal</a>
+  <div class="topbar-badge">
+    <span class="live-dot"></span>
+    NOTA · 01
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-persp">
+    <svg viewBox="0 0 1200 280" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <g stroke="#7c3aed" stroke-width="0.7" fill="none">
+        <line x1="600" y1="140" x2="0" y2="0"/><line x1="600" y1="140" x2="300" y2="0"/>
+        <line x1="600" y1="140" x2="900" y2="0"/><line x1="600" y1="140" x2="1200" y2="0"/>
+        <line x1="600" y1="140" x2="0" y2="280"/><line x1="600" y1="140" x2="1200" y2="280"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="fade-up d1 hero-eyebrow">
+      <span class="cat-tag">Tendencias · Cultura Digital</span>
+      <span class="year-tag">2026</span>
+    </div>
+    <h1 class="fade-up d2 hero-title">
+      El cansancio del<br/>contenido perfecto:<br/>
+      <span>por qué internet está cambiando otra vez</span>
+    </h1>
+    <p class="fade-up d3 hero-deck">Los algoritmos premiaron durante años la eficiencia técnica. Ahora las audiencias buscan algo diferente: autenticidad.</p>
+    <div class="fade-up d3 stats-strip">
+      <div class="stat-b">
+        <div class="stat-b-label">Plataformas</div>
+        <div class="stat-b-val">3</div>
+        <div class="stat-b-sub">TikTok · IG · YT</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-label">Fenómeno</div>
+        <div class="stat-b-val" style="font-size:0.72rem;color:#4ade80;">Espontáneo</div>
+        <div class="stat-b-sub">vs. optimizado</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-label">Lectura</div>
+        <div class="stat-b-val">~4 min</div>
+        <div class="stat-b-sub">Nota completa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="article-layout">
+
+  <!-- MAIN ARTICLE -->
+  <article class="article-body">
+    <p class="body-text lead">Durante años, las redes sociales parecían avanzar hacia una misma dirección: contenido cada vez más producido, editado y calculado. Videos perfectamente iluminados, transiciones rápidas y publicaciones diseñadas específicamente para captar atención dominaron plataformas como TikTok, Instagram y YouTube.</p>
+
+    <div class="hi-box">
+      <p>Sin embargo, algo comenzó a cambiar. Cada vez más usuarios están reaccionando mejor a videos simples, espontáneos y menos producidos.</p>
+    </div>
+
+    <p class="body-text">Personas hablando directamente a cámara, grabaciones cotidianas o contenidos sin grandes ediciones están logrando millones de visitas, mostrando un agotamiento evidente frente al contenido excesivamente optimizado.</p>
+
+    <h2 class="section-h">La trampa de la eficiencia técnica</h2>
+
+    <p class="body-text">Parte de este cambio ocurre porque muchas publicaciones comenzaron a sentirse iguales. Durante años, los algoritmos premiaron estructuras repetidas: hooks agresivos, cortes rápidos, subtítulos enormes y formatos casi idénticos entre sí. Como resultado, internet se llenó de contenido técnicamente eficiente, pero muchas veces vacío o artificial.</p>
+
+    <div class="pullquote">
+      <p>Internet se llenó de contenido técnicamente eficiente, pero muchas veces vacío o artificial. Las audiencias lo notaron antes que los creadores.</p>
+      <cite>Análisis · Cultura de Plataformas 2026</cite>
+    </div>
+
+    <h2 class="section-h">La autenticidad como nuevo valor</h2>
+
+    <p class="body-text">Al mismo tiempo, las audiencias comenzaron a valorar más la cercanía y autenticidad. Los usuarios ya no buscan solamente videos "perfectos", sino también creadores que parezcan reales y conecten emocionalmente con ellos.</p>
+
+    <p class="body-text">Esto también refleja el agotamiento que enfrentan muchos creadores intentando mantener estándares imposibles de producción constante. Detrás de publicaciones aparentemente perfectas suele existir estrés, presión por las métricas y miedo permanente a perder relevancia.</p>
+
+    <div class="pullquote">
+      <p>Detrás de publicaciones aparentemente perfectas suele existir estrés, presión por las métricas y miedo permanente a perder relevancia.</p>
+      <cite>Reflexión · Bienestar del Creador</cite>
+    </div>
+
+    <h2 class="section-h">Una nueva etapa para las redes sociales</h2>
+
+    <p class="body-text">Hoy, internet parece entrar lentamente en una nueva etapa donde la espontaneidad vuelve a tener valor. Quizás el futuro de las redes sociales no esté en producir más, sino en volver a sentirse humano.</p>
+
+    <div class="hi-box green">
+      <p>La pregunta que queda abierta: ¿los algoritmos aprenderán a premiar lo humano, o lo humano aprenderá de nuevo a ignorar los algoritmos?</p>
+    </div>
+
+    <div class="article-footer">
+      <span>NOTA 01 · Portal Comunicación Digital · 2026</span>
+      <a href="index.html">← Volver al portal</a>
+    </div>
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-label">Tips Relacionados</div>
+
+    <div class="tip-panel">
+      <div class="tip-header">
+        <span class="tip-sys">AI_TIPS.SYS</span>
+        <span class="tip-badge" id="s-cat">—</span>
+      </div>
+      <div id="s-content">
+        <div class="tip-title-s" id="s-title">Cargando...</div>
+        <div class="tip-body-s" id="s-body"></div>
+      </div>
+      <div class="tip-progress-bar">
+        <div class="tip-progress-fill" id="s-fill" style="width:0%"></div>
+      </div>
+      <div class="tip-nav-s">
+        <span class="tip-idx-s" id="s-idx">--/09</span>
+        <button class="tip-btn" onclick="loadSideTip()">↺ Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Related nota -->
+    <div>
+      <div class="sidebar-label" style="margin-bottom:12px;">También en el portal</div>
+      <div class="related-box">
+        <div class="related-item">
+          <div class="related-item-cat">Nota 02 · Bienestar Digital</div>
+          <a href="nota2.html">La presión de ser constante: el desgaste silencioso detrás de crear contenido</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key concept -->
+    <div style="background:var(--surface);border:2px solid var(--border);border-left:4px solid var(--yellow);box-shadow:4px 4px 0 var(--border);padding:14px;">
+      <div style="font-family:var(--mono);font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:8px;">Concepto clave</div>
+      <p style="font-size:0.74rem;line-height:1.6;color:var(--text-muted);">Autenticidad digital no es sinónimo de descuido técnico. Es la percepción de presencia real detrás del contenido.</p>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+const TIPS = [
+  { cat:"ALGORITMOS",   title:"Por qué tus Reels dejan de mostrarse después de una hora",   body:"Instagram prueba inicialmente el contenido con grupos pequeños antes de decidir si seguir distribuyéndolo. La retención manda: si la gente no termina tu video, el algoritmo lo interpreta como señal negativa y corta la distribución." },
+  { cat:"ALGORITMOS",   title:"Qué hacer cuando TikTok deja de recomendar tu contenido",    body:"Eliminar videos o publicar desesperadamente empeora el problema. Analiza qué estructuras fallaron y cambia el gancho. El algoritmo penaliza el pánico más que el silencio calculado." },
+  { cat:"ALGORITMOS",   title:"La verdad sobre los hashtags en 2026",                       body:"Ya no son el principal motor de descubrimiento. El algoritmo hoy prioriza las palabras habladas, el SEO de texto y el comportamiento del usuario." },
+  { cat:"CREATIVIDAD",  title:"Cómo encontrar un estilo propio sin copiar tendencias",      body:"Inspirarse es normal, pero repetir de forma exacta lo que hacen los demás destruye la identidad de tu canal." },
+  { cat:"CREATIVIDAD",  title:"Qué publicar cuando sientes que ya se dijo todo",            body:"La diferencia casi nunca está en la temática, sino en la perspectiva única y la forma en que lo cuentas." },
+  { cat:"CREATIVIDAD",  title:"La obsesión por ser viral está matando la creatividad",      body:"Muchos creadores dejan de experimentar por miedo a perder alcance, volviéndose predecibles." },
+  { cat:"STORYTELLING", title:"Los primeros 3 segundos lo deciden todo",                    body:"La audiencia decide muy rápido si deslizar hacia arriba o quedarse. Un inicio lento regala tus visitas a tu competencia." },
+  { cat:"STORYTELLING", title:"Cómo escribir hooks magnéticos",                             body:"Las preguntas retóricas, promesas de valor inmediato o frases inesperadas generan curiosidad instantánea." },
+  { cat:"STORYTELLING", title:"Qué hace que un video se sienta lento",                      body:"Las pausas muertas en la locución y las explicaciones sobre-desarrolladas provocan el abandono temprano." }
+];
+const CAT_C = {
+  "ALGORITMOS": {bg:"rgba(124,58,237,0.12)",border:"rgba(124,58,237,0.3)",text:"#a78bfa"},
+  "CREATIVIDAD":{bg:"rgba(251,191,36,0.08)",border:"rgba(251,191,36,0.3)",text:"#fbbf24"},
+  "STORYTELLING":{bg:"rgba(34,197,94,0.08)",border:"rgba(34,197,94,0.3)",text:"#4ade80"}
+};
+let cur=-1;
+function loadSideTip(){
+  let i; do{i=Math.floor(Math.random()*TIPS.length);}while(i===cur&&TIPS.length>1);
+  cur=i;
+  const t=TIPS[i],c=CAT_C[t.cat];
+  const b=document.getElementById('s-cat');
+  b.textContent=t.cat;b.style.background=c.bg;b.style.borderColor=c.border;b.style.color=c.text;
+  document.getElementById('s-idx').textContent=String(i+1).padStart(2,'0')+'/'+String(TIPS.length).padStart(2,'0');
+  const f=document.getElementById('s-fill');
+  f.style.width='0%';f.style.background=c.text;
+  setTimeout(()=>{f.style.width=((i+1)/TIPS.length*100)+'%';},50);
+  const cnt=document.getElementById('s-content');
+  cnt.style.opacity='0';cnt.style.transform='translateY(5px)';cnt.style.transition='opacity 0.22s,transform 0.22s';
+  setTimeout(()=>{
+    document.getElementById('s-title').textContent=t.title;
+    document.getElementById('s-body').textContent=t.body;
+    cnt.style.opacity='1';cnt.style.transform='translateY(0)';
+  },180);
+}
+document.addEventListener('DOMContentLoaded',loadSideTip);
+</script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nota 02 · La presión de ser constante</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0a0a0c;
+      --surface:   #111116;
+      --border:    #252530;
+      --teal:      #14b8a6;
+      --teal-lt:   #5eead4;
+      --violet:    #7c3aed;
+      --violet-lt: #a78bfa;
+      --green:     #22c55e;
+      --yellow:    #fbbf24;
+      --red:       #ef4444;
+      --red-lt:    #fca5a5;
+      --text:      #f1f5f9;
+      --text-muted:#94a3b8;
+      --text-dim:  #334155;
+      --mono:      'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; }
+
+    @keyframes pulse-dot  { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes fadeUp     { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .live-dot { width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;animation:pulse-dot 1.4s ease-in-out infinite; }
+    .fade-up{animation:fadeUp 0.45s ease forwards}
+    .d1{animation-delay:0.05s;opacity:0}.d2{animation-delay:0.16s;opacity:0}.d3{animation-delay:0.28s;opacity:0}
+
+    /* TOP BAR */
+    .topbar {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar a {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .topbar a:hover { color: var(--teal-lt); }
+    .topbar-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal-lt);
+      padding: 4px 10px;
+      border: 1px solid rgba(20,184,166,0.3);
+      background: rgba(20,184,166,0.07);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 52px 24px 48px;
+      border-bottom: 2px solid var(--border);
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% -5%, rgba(20,184,166,0.16) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 80% 90%, rgba(34,197,94,0.04) 0%, transparent 60%),
+        var(--bg);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(20,184,166,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20,184,166,0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+      -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 10%, transparent 100%);
+      mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 10%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero-persp {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .cat-tag {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      background: rgba(20,184,166,0.1);
+      border: 1px solid rgba(20,184,166,0.3);
+      color: var(--teal-lt);
+    }
+    .year-tag { font-family: var(--mono); font-size: 0.56rem; color: var(--text-dim); }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 5vw, 2.9rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .hero-title span { color: var(--teal-lt); }
+    .hero-deck {
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+
+    .stats-strip {
+      display: flex;
+      gap: 0;
+      border: 2px solid var(--border);
+      max-width: 480px;
+      box-shadow: 4px 4px 0 var(--border);
+    }
+    .stat-b { flex: 1; padding: 10px 14px; border-right: 2px solid var(--border); }
+    .stat-b:last-child { border-right: none; }
+    .stat-b-label { font-family:var(--mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-dim);margin-bottom:3px; }
+    .stat-b-val   { font-size:0.9rem;font-weight:800;color:var(--teal-lt);line-height:1.2; }
+    .stat-b-sub   { font-family:var(--mono);font-size:0.56rem;color:var(--text-dim);margin-top:2px; }
+
+    .divider { height:2px;background:var(--border); }
+
+    /* LAYOUT */
+    .article-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* PROSE */
+    .body-text {
+      font-size: clamp(0.875rem, 2.2vw, 1rem);
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 1.3rem;
+    }
+    .body-text.lead { color: #cbd5e1; font-size: clamp(0.9rem, 2.4vw, 1.05rem); font-weight: 500; }
+
+    .opening-quote {
+      border-left: 4px solid var(--teal);
+      padding: 8px 0 8px 18px;
+      margin-bottom: 1.4rem;
+    }
+    .opening-quote p {
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .section-h {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 2.2rem 0 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.3;
+    }
+    .section-h::before {
+      content: '';
+      display: block;
+      width: 4px;
+      min-width: 4px;
+      height: 1.1em;
+      background: linear-gradient(to bottom, var(--teal), var(--teal-lt));
+    }
+
+    .pullquote {
+      position: relative;
+      margin: 2rem 0;
+      padding: 16px 18px 16px 20px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-left: 4px solid var(--teal);
+      box-shadow: 5px 5px 0 var(--border);
+    }
+    .pullquote::before {
+      content: '\201C';
+      position: absolute;
+      top: -8px; left: 12px;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: rgba(20,184,166,0.15);
+      font-family: Georgia, serif;
+    }
+    .pullquote p { font-style:italic;font-size:clamp(0.88rem,2.2vw,1rem);line-height:1.6;color:var(--teal-lt);margin:0; }
+    .pullquote cite { display:block;margin-top:8px;font-size:0.6rem;font-family:var(--mono);letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);font-style:normal; }
+
+    .hi-box {
+      background: rgba(20,184,166,0.06);
+      border: 2px solid rgba(20,184,166,0.18);
+      border-left: 4px solid var(--teal);
+      padding: 14px 16px;
+      margin: 1.5rem 0;
+    }
+    .hi-box p { color: var(--teal-lt); font-size: clamp(0.82rem,2.1vw,0.9rem); margin: 0; line-height: 1.65; }
+
+    .alert-box {
+      background: rgba(239,68,68,0.05);
+      border: 2px solid rgba(239,68,68,0.18);
+      border-left: 4px solid var(--red);
+      box-shadow: 5px 5px 0 rgba(239,68,68,0.1);
+      padding: 14px 16px;
+      margin: 1.5rem 0;
+    }
+    .alert-box p { color: var(--red-lt); font-size: clamp(0.82rem,2.1vw,0.9rem); margin: 0; line-height: 1.65; }
+
+    .article-footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .article-footer span { font-family:var(--mono);font-size:0.58rem;color:var(--text-dim); }
+    .article-footer a {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--teal-lt);
+      text-decoration: none;
+      border: 1px solid rgba(20,184,166,0.3);
+      padding: 4px 10px;
+      transition: background 0.15s;
+    }
+    .article-footer a:hover { background: rgba(20,184,166,0.08); }
+
+    /* SIDEBAR */
+    .article-sidebar {
+      position: sticky;
+      top: 62px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      background: var(--teal);
+    }
+
+    .tip-panel {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-top: 2px solid var(--teal);
+      box-shadow: 4px 4px 0 var(--border);
+      padding: 16px;
+    }
+    .tip-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:12px; }
+    .tip-sys    { font-family:var(--mono);font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal-lt); }
+    .tip-badge  { font-family:var(--mono);font-size:0.52rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.3);color:var(--teal-lt); }
+    .tip-title-s{ font-size:0.78rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:7px; }
+    .tip-body-s { font-size:0.71rem;line-height:1.6;color:var(--text-muted);margin-bottom:10px; }
+    .tip-progress-bar  { height:2px;background:var(--border); }
+    .tip-progress-fill { height:2px;background:linear-gradient(90deg,var(--teal),var(--teal-lt));transition:width 0.4s ease; }
+    .tip-nav-s  { display:flex;align-items:center;justify-content:space-between;margin-top:8px; }
+    .tip-idx-s  { font-family:var(--mono);font-size:0.56rem;color:var(--text-dim); }
+    .tip-btn    { font-family:var(--mono);font-size:0.55rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);background:transparent;border:1px solid var(--border);padding:3px 8px;cursor:pointer;transition:border-color 0.15s,color 0.15s; }
+    .tip-btn:hover { border-color:var(--teal);color:var(--teal-lt); }
+
+    .related-box {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      box-shadow: 4px 4px 0 var(--border);
+      padding: 14px;
+    }
+    .related-item { padding:10px 0;border-bottom:1px solid var(--border); }
+    .related-item:last-child { border-bottom:none;padding-bottom:0; }
+    .related-item-cat { font-family:var(--mono);font-size:0.54rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:4px; }
+    .related-item a { font-size:0.75rem;font-weight:600;color:var(--text-muted);text-decoration:none;line-height:1.4;display:block;transition:color 0.15s; }
+    .related-item a:hover { color:var(--text); }
+
+    @media (max-width: 860px) {
+      .article-layout { grid-template-columns: 1fr; }
+      .article-sidebar { position:static; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 36px 16px 36px; }
+      .hero-title { font-size: 1.75rem; }
+      .article-layout { padding: 24px 16px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html">← Portal</a>
+  <div class="topbar-badge">
+    <span class="live-dot"></span>
+    NOTA · 02
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-persp">
+    <svg viewBox="0 0 1200 280" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <g stroke="#14b8a6" stroke-width="0.7" fill="none">
+        <line x1="600" y1="140" x2="0"    y2="0"/>
+        <line x1="600" y1="140" x2="300"  y2="0"/>
+        <line x1="600" y1="140" x2="900"  y2="0"/>
+        <line x1="600" y1="140" x2="1200" y2="0"/>
+        <line x1="600" y1="140" x2="0"    y2="280"/>
+        <line x1="600" y1="140" x2="1200" y2="280"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="fade-up d1 hero-eyebrow">
+      <span class="cat-tag">Bienestar Digital · Creatividad</span>
+      <span class="year-tag">2026</span>
+    </div>
+    <h1 class="fade-up d2 hero-title">
+      La presión de ser constante:<br/>
+      <span>el desgaste silencioso detrás de crear contenido</span>
+    </h1>
+    <p class="fade-up d3 hero-deck">"Publica todos los días." Esa frase se volvió una regla de oro digital. Pero nadie habló del precio real que tiene obedecer esa orden.</p>
+    <div class="fade-up d3 stats-strip">
+      <div class="stat-b">
+        <div class="stat-b-label">Fenómeno</div>
+        <div class="stat-b-val" style="font-size:0.75rem;color:#f87171;">Burnout Creativo</div>
+        <div class="stat-b-sub">El costo del algoritmo</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-label">Plataformas</div>
+        <div class="stat-b-val">3+</div>
+        <div class="stat-b-sub">TikTok · IG · YT</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-label">Lectura</div>
+        <div class="stat-b-val">~4 min</div>
+        <div class="stat-b-sub">Nota completa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="article-layout">
+
+  <!-- MAIN ARTICLE -->
+  <article>
+    <div class="opening-quote">
+      <p>"Publica todos los días."</p>
+    </div>
+
+    <p class="body-text lead">Durante años, esa frase se convirtió en una de las reglas más repetidas dentro del mundo digital. La constancia parece ser la clave para crecer en plataformas como TikTok, Instagram o YouTube. Pero pocas veces se habla del desgaste que esto puede provocar.</p>
+
+    <div class="hi-box">
+      <p>Muchos creadores sienten que dejar de publicar durante algunos días significa perder alcance, seguidores o relevancia. Las plataformas generan constantemente la sensación de que todo ocurre demasiado rápido.</p>
+    </div>
+
+    <p class="body-text">Desaparecer temporalmente puede dejarte atrás. Con el tiempo, crear contenido deja de sentirse creativo y comienza a parecer una obligación permanente.</p>
+
+    <h2 class="section-h">La comparación como combustible de la ansiedad</h2>
+
+    <p class="body-text">La presión también aumenta por la comparación constante con otros creadores. Mientras alguien descansa, siempre existe la sensación de que otra persona está creciendo, viralizándose o aprovechando tendencias antes.</p>
+
+    <div class="pullquote">
+      <p>Las redes sociales hacen visible el éxito ajeno todo el tiempo, lo que puede generar ansiedad y frustración sostenida en quienes no logran desconectarse.</p>
+      <cite>Reflexión · Psicología del Creador</cite>
+    </div>
+
+    <h2 class="section-h">Cuando el algoritmo reemplaza la creatividad</h2>
+
+    <p class="body-text">Además, muchos terminan adaptando completamente su contenido al algoritmo, dejando de lado lo que realmente disfrutan hacer. La obsesión por mantenerse relevante puede transformar la creatividad en una rutina mecánica.</p>
+
+    <div class="alert-box">
+      <p>Lo que empezó como una pasión creativa se convierte en una línea de producción. El creador desaparece. Queda solo el productor de contenido.</p>
+    </div>
+
+    <div class="pullquote">
+      <p>Ningún crecimiento digital vale demasiado si termina destruyendo la relación que una persona tenía con aquello que originalmente disfrutaba hacer.</p>
+      <cite>Conclusión · Bienestar Digital</cite>
+    </div>
+
+    <h2 class="section-h">El descanso como parte del proceso</h2>
+
+    <p class="body-text">Aunque internet suele romantizar la productividad constante, descansar también debería ser parte del proceso creativo. La narrativa dominante celebra la velocidad y la frecuencia, pero rara vez habla de sostenibilidad.</p>
+
+    <div class="hi-box">
+      <p>La pregunta que los creadores del futuro deberán responder no es cuánto contenido producir, sino a qué costo están dispuestos a producirlo.</p>
+    </div>
+
+    <div class="article-footer">
+      <span>NOTA 02 · Portal Comunicación Digital · 2026</span>
+      <a href="index.html">← Volver al portal</a>
+    </div>
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-label">Tips Relacionados</div>
+
+    <div class="tip-panel">
+      <div class="tip-header">
+        <span class="tip-sys">AI_TIPS.SYS</span>
+        <span class="tip-badge" id="s-cat">—</span>
+      </div>
+      <div id="s-content">
+        <div class="tip-title-s" id="s-title">Cargando...</div>
+        <div class="tip-body-s" id="s-body"></div>
+      </div>
+      <div class="tip-progress-bar">
+        <div class="tip-progress-fill" id="s-fill" style="width:0%"></div>
+      </div>
+      <div class="tip-nav-s">
+        <span class="tip-idx-s" id="s-idx">--/09</span>
+        <button class="tip-btn" onclick="loadSideTip()">↺ Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Related nota -->
+    <div>
+      <div class="sidebar-label" style="margin-bottom:12px;">También en el portal</div>
+      <div class="related-box">
+        <div class="related-item">
+          <div class="related-item-cat">Nota 01 · Tendencias</div>
+          <a href="nota1.html">El cansancio del contenido perfecto: por qué internet está cambiando otra vez</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key concept -->
+    <div style="background:var(--surface);border:2px solid var(--border);border-left:4px solid var(--red);box-shadow:4px 4px 0 var(--border);padding:14px;">
+      <div style="font-family:var(--mono);font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--red-lt);margin-bottom:8px;">Señal de alerta</div>
+      <p style="font-size:0.74rem;line-height:1.6;color:var(--text-muted);">Cuando crear contenido deja de ser disfrute y se vuelve obligación, es momento de reevaluar la relación con la plataforma.</p>
+    </div>
+
+    <!-- Burnout indicator -->
+    <div style="background:var(--surface);border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);padding:14px;">
+      <div style="font-family:var(--mono);font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal-lt);margin-bottom:12px;">Factores de burnout</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+            <span style="font-size:0.68rem;color:var(--text-muted);">Presión constante</span>
+            <span style="font-family:var(--mono);font-size:0.6rem;color:var(--red-lt);">Alta</span>
+          </div>
+          <div style="height:3px;background:var(--border);"><div style="height:100%;width:88%;background:var(--red);"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+            <span style="font-size:0.68rem;color:var(--text-muted);">Comparación social</span>
+            <span style="font-family:var(--mono);font-size:0.6rem;color:var(--yellow);">Media</span>
+          </div>
+          <div style="height:3px;background:var(--border);"><div style="height:100%;width:65%;background:var(--yellow);"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+            <span style="font-size:0.68rem;color:var(--text-muted);">Pérdida de propósito</span>
+            <span style="font-family:var(--mono);font-size:0.6rem;color:var(--red-lt);">Alta</span>
+          </div>
+          <div style="height:3px;background:var(--border);"><div style="height:100%;width:76%;background:var(--red);"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+            <span style="font-size:0.68rem;color:var(--text-muted);">Descanso real</span>
+            <span style="font-family:var(--mono);font-size:0.6rem;color:var(--teal-lt);">Bajo</span>
+          </div>
+          <div style="height:3px;background:var(--border);"><div style="height:100%;width:18%;background:var(--teal);"></div></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+const TIPS = [
+  { cat:"ALGORITMOS",   title:"Por qué tus Reels dejan de mostrarse después de una hora",   body:"Instagram prueba inicialmente el contenido con grupos pequeños antes de decidir si seguir distribuyéndolo. La retención manda: si la gente no termina tu video, el algoritmo lo interpreta como señal negativa y corta la distribución." },
+  { cat:"ALGORITMOS",   title:"Qué hacer cuando TikTok deja de recomendar tu contenido",    body:"Eliminar videos o publicar desesperadamente empeora el problema. Analiza qué estructuras fallaron y cambia el gancho. El algoritmo penaliza el pánico más que el silencio calculado." },
+  { cat:"ALGORITMOS",   title:"La verdad sobre los hashtags en 2026",                       body:"Ya no son el principal motor de descubrimiento. El algoritmo hoy prioriza las palabras habladas, el SEO de texto y el comportamiento del usuario." },
+  { cat:"CREATIVIDAD",  title:"Cómo encontrar un estilo propio sin copiar tendencias",      body:"Inspirarse es normal, pero repetir de forma exacta lo que hacen los demás destruye la identidad de tu canal." },
+  { cat:"CREATIVIDAD",  title:"Qué publicar cuando sientes que ya se dijo todo",            body:"La diferencia casi nunca está en la temática, sino en la perspectiva única y la forma en que lo cuentas." },
+  { cat:"CREATIVIDAD",  title:"La obsesión por ser viral está matando la creatividad",      body:"Muchos creadores dejan de experimentar por miedo a perder alcance, volviéndose predecibles." },
+  { cat:"STORYTELLING", title:"Los primeros 3 segundos lo deciden todo",                    body:"La audiencia decide muy rápido si deslizar hacia arriba o quedarse. Un inicio lento regala tus visitas a tu competencia." },
+  { cat:"STORYTELLING", title:"Cómo escribir hooks magnéticos",                             body:"Las preguntas retóricas, promesas de valor inmediato o frases inesperadas generan curiosidad instantánea." },
+  { cat:"STORYTELLING", title:"Qué hace que un video se sienta lento",                      body:"Las pausas muertas en la locución y las explicaciones sobre-desarrolladas provocan el abandono temprano." }
+];
+const CAT_C = {
+  "ALGORITMOS": {bg:"rgba(124,58,237,0.12)",border:"rgba(124,58,237,0.3)",text:"#a78bfa"},
+  "CREATIVIDAD":{bg:"rgba(251,191,36,0.08)",border:"rgba(251,191,36,0.3)",text:"#fbbf24"},
+  "STORYTELLING":{bg:"rgba(34,197,94,0.08)",border:"rgba(34,197,94,0.3)",text:"#4ade80"}
+};
+let cur=-1;
+function loadSideTip(){
+  let i; do{i=Math.floor(Math.random()*TIPS.length);}while(i===cur&&TIPS.length>1);
+  cur=i;
+  const t=TIPS[i],c=CAT_C[t.cat];
+  const b=document.getElementById('s-cat');
+  b.textContent=t.cat;b.style.background=c.bg;b.style.borderColor=c.border;b.style.color=c.text;
+  document.getElementById('s-idx').textContent=String(i+1).padStart(2,'0')+'/'+String(TIPS.length).padStart(2,'0');
+  const f=document.getElementById('s-fill');
+  f.style.width='0%';f.style.background=c.text;
+  setTimeout(()=>{f.style.width=((i+1)/TIPS.length*100)+'%';},50);
+  const cnt=document.getElementById('s-content');
+  cnt.style.opacity='0';cnt.style.transform='translateY(5px)';cnt.style.transition='opacity 0.22s,transform 0.22s';
+  setTimeout(()=>{
+    document.getElementById('s-title').textContent=t.title;
+    document.getElementById('s-body').textContent=t.body;
+    cnt.style.opacity='1';cnt.style.transform='translateY(0)';
+  },180);
+}
+document.addEventListener('DOMContentLoaded',loadSideTip);
+</script>
+</body>
+</html>
