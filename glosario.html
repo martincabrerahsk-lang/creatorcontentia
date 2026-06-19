@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glosario Técnico · Portal de Comunicación Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --canvas: #ffffff;
+      --surface: rgba(255, 255, 255, 0.7);
+      --border: rgba(0, 0, 0, 0.08);
+      --accent: #0071e3;
+      --text: #1d1d1f;
+      --text-dim: #6e6e73;
+      --text-muted: #86868b;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .blur-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px; height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
+    .nav-links { display: flex; list-style: none; gap: 24px; }
+    .nav-links a { font-size: 0.75rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+
+    .header-section {
+      text-align: center; padding: 80px 24px 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); margin-bottom: 16px; }
+    .header-desc { font-size: 1.05rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; }
+
+    .glossary-container { max-width: 1000px; margin: 60px auto; padding: 0 24px; }
+    
+    .glossary-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;
+    }
+
+    .term-card {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .term-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+    
+    .term-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .term-title { font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+    .term-tag { font-family: var(--mono); font-size: 0.6rem; color: var(--accent); background: rgba(0,113,227,0.08); padding: 4px 8px; border-radius: 6px; font-weight: 600; }
+    
+    .term-body { font-size: 0.88rem; color: var(--text-dim); line-height: 1.6; }
+    .term-body strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<nav class="blur-nav">
+  <div class="nav-brand">Portal de Comunicación Digital</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="glosario.html" style="color: var(--text); font-weight: 600;">Glosario Técnico</a></li>
+  </ul>
+</nav>
+
+<header class="header-section">
+  <h1 class="header-title">Base de Conocimiento</h1>
+  <p class="header-desc">Diccionario de terminología analítica y conceptos técnicos fundamentales para entender la economía de creadores.</p>
+</header>
+
+<main class="glossary-container">
+  <div class="glossary-grid">
+    
+    <!-- TARJETA 1 -->
+    <div class="term-card">
+      <div class="term-header">
+        <h2 class="term-title">CTR (Click-Through Rate)</h2>
+        <span class="term-tag">MÉTRICA</span>
+      </div>
+      <p class="term-body">Es el <strong>porcentaje de clics</strong>. Mide cuántas personas hicieron clic en un video después de ver la miniatura y el título en su pantalla. Un CTR alto indica que el "gancho" visual y textual es efectivo.</p>
+    </div>
+
+    <!-- TARJETA 2 -->
+    <div class="term-card">
+      <div class="term-header">
+        <h2 class="term-title">AVD (Average View Duration)</h2>
+        <span class="term-tag">MÉTRICA</span>
+      </div>
+      <p class="term-body">La <strong>duración media de visualización</strong>. Indica el tiempo promedio exacto que los usuarios pasan viendo un contenido antes de abandonarlo. Es el principal factor que los algoritmos usan para recomendar contenido hoy en día.</p>
+    </div>
+
+    <!-- TARJETA 3 -->
+    <div class="term-card">
+      <div class="term-header">
+        <h2 class="term-title">Shadowban</h2>
+        <span class="term-tag">FENÓMENO</span>
+      </div>
+      <p class="term-body">Ocurre cuando una plataforma <strong>limita silenciosamente el alcance</strong> de una cuenta por infringir normas o usar tácticas de spam. El creador puede seguir publicando, pero su contenido deja de aparecer en el "feed" de recomendaciones para no seguidores.</p>
+    </div>
+
+    <!-- TARJETA 4 -->
+    <div class="term-card">
+      <div class="term-header">
+        <h2 class="term-title">Retención Cruzada</h2>
+        <span class="term-tag">ESTRATEGIA</span>
+      </div>
+      <p class="term-body">Es la capacidad de <strong>trasladar audiencia</strong> desde una plataforma de descubrimiento rápido (como TikTok) hacia una plataforma de formato largo y consolidación (como YouTube), sin perder el interés del usuario en el salto.</p>
+    </div>
+
+    <!-- TARJETA 5 -->
+    <div class="term-card">
+      <div class="term-header">
+        <h2 class="term-title">Burnout Creativo</h2>
+        <span class="term-tag">PSICOLOGÍA</span>
+      </div>
+      <p class="term-body">Estado de agotamiento físico, mental y emocional causado por la presión sostenida de mantener un volumen de publicación diario para <strong>satisfacer la demanda del algoritmo</strong>, perdiendo el propósito original.</p>
+    </div>
+
+    <!-- TARJETA 6 -->
+    <div class="term-card">
+      <div class="term-header">
+        <h2 class="term-title">CPM / RPM</h2>
+        <span class="term-tag">FINANZAS</span>
+      </div>
+      <p class="term-body">El <strong>CPM</strong> es lo que los anunciantes pagan por cada mil visualizaciones. El <strong>RPM</strong> es lo que el creador efectivamente gana por esas mil visualizaciones después de que la plataforma (ej. YouTube) toma su porcentaje.</p>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
