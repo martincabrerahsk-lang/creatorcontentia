@@ -391,7 +391,390 @@
       <div class="ia-response-screen" id="responseBox">
         <div class="ia-empty-msg" id="placeholderMsg">// El motor estratégico procesará el volumen, tiempos y referentes reales del nicho</div>
       </div>
+    </div>    <!-- CONTENEDOR PRINCIPAL: EFECTO DE CRISTAL Y BORDES REDONDEADOS -->
+<div class="glass-card" style="box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; padding: 24px; max-width: 800px; margin: 0 auto; transition: all 0.3s ease;">
+  
+  <!-- Encabezado de la Herramienta -->
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 18px;">
+    <div>
+      <div class="panel-label" style="letter-spacing: 0.1em; margin-bottom: 4px;">Auditoría Algorítmica</div>
+      <h2 style="font-size: 22px; font-weight: 600; color: var(--text); margin: 0; line-height: 1.2;">Optimizador de Retención y Guiones</h2>
     </div>
+    <span class="render-pill-item" style="font-family: var(--mono); font-size: 11px; padding: 4px 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.01);">v1.2.0</span>
+  </div>
+
+  <!-- Intención / Descripción Breve -->
+  <p style="font-size: 13.5px; line-height: 1.5; color: var(--text-dim); margin: 0;">
+    Introduce la introducción o el cuerpo de tu guión de YouTube. Nuestro analizador detectará términos sensibles, sensacionalistas o penalizados que reducen el alcance orgánico, sugiriéndote alternativas seguras garantizadas para retener anunciantes.
+  </p>
+
+  <!-- Formulario de Entrada -->
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="panel-label" style="font-size: 11px;">Entrada del Texto del Guión</span>
+      <span id="charCounter" style="font-family: var(--mono); font-size: 11px; color: var(--text-muted);">0 caracteres</span>
+    </div>
+    
+    <!-- Textarea para introducir el guión usando la clase ia-field-input -->
+    <textarea 
+      id="scriptInput" 
+      class="ia-field-input" 
+      placeholder="Escribe o pega aquí los primeros 30 segundos de tu guión (Ej: '¡Hoy vas a MORIR si no ves esto GRATIS para ganar DINERO rápido!'...)" 
+      style="width: 100%; min-height: 120px; font-size: 14px; line-height: 1.6; padding: 14px; background: transparent; color: var(--text); resize: vertical; box-sizing: border-box; focus: outline-none;"
+    ></textarea>
+  </div>
+
+  <!-- Botón de Acción Estilo Apple Primary -->
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
+    <button 
+      id="clearBtn" 
+      style="padding: 10px 16px; background: transparent; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; font-weight: 505; color: var(--text-dim); cursor: pointer; transition: all 0.2s;"
+      hover="background: rgba(0,0,0,0.02);"
+    >
+      Limpiar
+    </button>
+    <button 
+      id="evaluateBtn" 
+      class="btn-apple-primary" 
+      style="cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 13px; padding: 10px 20px; transition: all 0.2s;"
+    >
+      <span>Analizar Viabilidad</span>
+    </button>
+  </div>
+
+  <!-- Estado de Carga (Loader Minimalista) -->
+  <div id="loader" style="display: none; justify-content: center; align-items: center; padding: 32px 0;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+      <div style="width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animate: spin 0.8s linear infinite; webkit-animation: spin 0.8s linear infinite;"></div>
+      <span class="panel-label" style="font-size: 10px; color: var(--text-dim);">Procesando por neuronas heurísticas...</span>
+    </div>
+  </div>
+
+  <!-- Panel de Métricas y Diagnósticos Dinámicos -->
+  <div id="resultDashboard" style="display: none; flex-direction: column; gap: 20px; margin-top: 10px;">
+    
+    <!-- Tarjeta de Puntuación General (Contrived render-card-node) -->
+    <div class="render-card-node" style="padding: 16px 20px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: grid; grid-template-columns: 1fr; md:grid-template-columns: auto 1fr; gap: 24px; align-items: center;">
+      <!-- Puntuación Monospaciada Apple -->
+      <div style="text-align: center; border-right: 1px dashed var(--border); padding-right: 24px; display: flex; flex-direction: column; align-items: center;">
+        <span class="panel-label" style="font-size: 10px; margin-bottom: 6px;">PUNTUACIÓN</span>
+        <div id="scoreDisplay" style="font-family: var(--mono); font-size: 42px; font-weight: 600; color: var(--accent); line-height: 1;">100%</div>
+        <span id="scoreBadge" class="render-pill-item" style="font-size: 10px; margin-top: 10px; padding: 2px 8px; font-weight: 600;">Excelente</span>
+      </div>
+      
+      <!-- Resumen de Métricas Rápidas -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="panel-label" style="font-size: 10px;">Diagnóstico de Salud Algorítmica</div>
+        <p id="analysisSummary" style="font-size: 13px; line-height: 1.5; color: var(--text); margin: 0; font-weight: 400;"></p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px;">
+          <div style="font-size: 12px; color: var(--text-dim);">
+            ✓ Palabras Analizadas: <strong id="totalWords" style="font-family: var(--mono); color: var(--text);">0</strong>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dim);">
+            ⚠ Alertas Detectadas: <strong id="totalAlerts" style="font-family: var(--mono); color: var(--text);">0</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Título Sección Tabla -->
+    <div style="margin-top: 6px;">
+      <div class="panel-label" style="font-size: 11px; margin-bottom: 8px;">Detalles de Filtros y Recomendaciones</div>
+    </div>
+
+    <!-- Contenedor Dinámico para las filas de Palabras Penalizadas -->
+    <div id="alertsContainer" style="display: flex; flex-direction: column; gap: 12px;">
+      <!-- Aquí se inyectarán las render-card-node de las alertas -->
+    </div>
+
+  </div>
+</div>
+
+<!-- ESTILOS DE TRANSICIONES MÍNIMAS (Solo efectos de rotación para loaders y animaciones fluidas) -->
+<style>
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  @-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+</style>
+
+<!-- BLOQUE DE JAVASCRIPT EXCLUSIVO -->
+<script>
+  (function() {
+    // 1. Diccionario de Palabras Sensibles y Penalizadas en YouTube (Bajo/Medio/Alto Riesgo)
+    const penalizationDictionary = [
+      {
+        word: "morir",
+        regex: /\bmorir(te|se|án|ás)?\b/gi,
+        category: "Violencia o Autolesión",
+        risk: "Alto",
+        reason: "El algoritmo limita activamente la monetización y reduce la tasa de distribución del video al instante si se detecta en los primeros 30 segundos.",
+        synonyms: ["partir", "perder la vida", "quedar fuera", "dejar de existir"]
+      },
+      {
+        word: "muerte",
+        regex: /\bmuert(o|as|os|e)?\b/gi,
+        category: "Violencia o Crisis",
+        risk: "Alto",
+        reason: "Término altamente sensible que dispara filtros robóticos de seguridad de contenido familiar en YouTube.",
+        synonyms: ["fallecimiento", "desenlace", "derrota final"]
+      },
+      {
+        word: "matar",
+        regex: /\bmatar(lo|ame|te|se|án)?\b/gi,
+        category: "Violencia",
+        risk: "Alto",
+        reason: "YouTube censura transcripciones automáticas que incitan a conductas violentas o simulaciones fuera del contexto gaming.",
+        synonyms: ["vencer", "eliminar", "derrotar", "deshacerse de"]
+      },
+      {
+        word: "gratis",
+        regex: /\bgratis\b/gi,
+        category: "Spam / Clickbait",
+        risk: "Medio",
+        reason: "El uso excesivo en la introducción activa sospechas de estafas en el algoritmo de búsqueda inteligente.",
+        synonyms: ["sin coste", "incluido", "de cortesía", "obsequiado"]
+      },
+      {
+        word: "dinero rápido",
+        regex: /\bdinero\s+r[aá]pido\b|\bganar\s+dinero\b/gi,
+        category: "Financiero Engañoso",
+        risk: "Medio",
+        reason: "Viola las políticas estrictas de enriquecimiento rápido que degradan el posicionamiento en motores de búsqueda.",
+        synonyms: ["generar ingresos", "rentabilizar", "monetizar la actividad"]
+      },
+      {
+        word: "hackear",
+        regex: /\bhackear(lo)?\b|\bhack\b/gi,
+        category: "Seguridad Digital",
+        risk: "Alto",
+        reason: "Penalizado bajo directrices sobre fomento de actividades peligrosas, vulnerabilidad tecnológica o ilegales.",
+        synonyms: ["analizar la vulnerabilidad", "optimizar", "modificar de raíz"]
+      },
+      {
+        word: "estafa",
+        regex: /\bestafa(s|dor)?\b/gi,
+        category: "Sensacionalismo",
+        risk: "Bajo",
+        reason: "Reduce la amigabilidad de la marca anunciante al asociar tu video con conceptos hostiles.",
+        synonyms: ["engaño", "fraude", "irregularidad"]
+      },
+      {
+        word: "mierda",
+        regex: /\bmierda(s)?\b/gi,
+        category: "Lenguaje Grosero",
+        risk: "Alto",
+        reason: "El lenguaje de alta vulgaridad introducido al inicio del video provoca desmonetización total del canal.",
+        synonyms: ["basura", "desperdicio", "situación compleja"]
+      }
+    ];
+
+    // 2. Elementos DOM
+    const scriptInput = document.getElementById("scriptInput");
+    const charCounter = document.getElementById("charCounter");
+    const clearBtn = document.getElementById("clearBtn");
+    const evaluateBtn = document.getElementById("evaluateBtn");
+    const loader = document.getElementById("loader");
+    const resultDashboard = document.getElementById("resultDashboard");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const scoreBadge = document.getElementById("scoreBadge");
+    const analysisSummary = document.getElementById("analysisSummary");
+    const totalWords = document.getElementById("totalWords");
+    const totalAlerts = document.getElementById("totalAlerts");
+    const alertsContainer = document.getElementById("alertsContainer");
+
+    // Contador de caracteres en tiempo real
+    scriptInput.addEventListener("input", function() {
+      const len = scriptInput.value.length;
+      charCounter.textContent = `${len} ${len === 1 ? 'caracter' : 'caracteres'}`;
+    });
+
+    // Limpieza de campos
+    clearBtn.addEventListener("click", function() {
+      scriptInput.value = "";
+      charCounter.textContent = "0 caracteres";
+      resultDashboard.style.display = "none";
+      scriptInput.focus();
+    });
+
+    // Acción de Análisis
+    evaluateBtn.addEventListener("click", function() {
+      const text = scriptInput.value.trim();
+      if (!text) {
+        alert("Por favor, introduce el texto de tu guión para poder auditarlo.");
+        return;
+      }
+
+      // 1. Mostrar loader e inhabilitar interacciones
+      loader.style.display = "flex";
+      resultDashboard.style.display = "none";
+      evaluateBtn.disabled = true;
+
+      // 2. Simulación de procesamiento asíncrono (Apple UX Feeling)
+      setTimeout(() => {
+        executeEvaluation(text);
+        
+        // Finalizar y mostrar dashboard
+        loader.style.display = "none";
+        resultDashboard.style.display = "flex";
+        evaluateBtn.disabled = false;
+        
+        // Desplazamiento suave al dashboard
+        resultDashboard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 750);
+    });
+
+    // 3. Función Núcleo de Auditoría
+    function executeEvaluation(text) {
+      const wordsArray = text.split(/\s+/).filter(w => w.length > 0);
+      const totalWordsCount = wordsArray.length;
+      
+      let score = 100;
+      let detectedAlerts = [];
+
+      // Escanear diccionario en busca de coincidencias regex
+      penalizationDictionary.forEach(item => {
+        const matches = text.match(item.regex);
+        if (matches) {
+          const count = matches.length;
+          
+          // Deducción de puntos según el riesgo
+          let penalty = 0;
+          let badgeColor = "var(--text-muted)";
+          let accentColor = "var(--text-dim)";
+          
+          if (item.risk === "Alto") {
+            penalty = 15;
+            badgeColor = "#FEE2E2"; // Fondo pastel rojo
+            accentColor = "#EF4444"; // Texto rojo Apple
+          } else if (item.risk === "Medio") {
+            penalty = 10;
+            badgeColor = "#FEF3C7"; // Fondo pastel ámbar
+            accentColor = "#F59E0B"; // Ámbar Apple
+          } else {
+            penalty = 5;
+            badgeColor = "#E0F2FE"; // Fondo pastel azul cielo
+            accentColor = "#0284C7"; // Azul Apple
+          }
+
+          score -= (penalty * count);
+          
+          detectedAlerts.push({
+            wordMatched: matches[0],
+            count: count,
+            ...item,
+            textColor: accentColor,
+            bgColor: badgeColor
+          });
+        }
+      });
+
+      // Puntuación acotada entre 0 y 100
+      score = Math.max(0, Math.min(100, score));
+
+      // Actualizar variables y textos del marcador general
+      scoreDisplay.textContent = `${score}%`;
+      totalWords.textContent = totalWordsCount;
+      totalAlerts.textContent = detectedAlerts.length;
+
+      // Actualizar estado visual y badge basándonos en la puntuación
+      if (score >= 80) {
+        scoreDisplay.style.color = "#10B981"; // Verde Apple
+        scoreBadge.textContent = "Seguro y Monetizable";
+        scoreBadge.style.background = "#D1FAE5";
+        scoreBadge.style.color = "#065F46";
+        analysisSummary.textContent = "¡Excelente guión! Tu texto cumple de forma notable con los parámetros más limpios recomendados por YouTube. No presenta riesgos de desmonetización o limitación algorítmica inmediata en la transcripción inicial.";
+      } else if (score >= 50) {
+        scoreDisplay.style.color = "var(--accent)"; // Azul/Ambar estándar
+        scoreBadge.textContent = "Riesgo Moderado";
+        scoreBadge.style.background = "#FEF3C7";
+        scoreBadge.style.color = "#92400E";
+        analysisSummary.textContent = "Auditoría completada. Se han detectado algunos términos que las directrices de anunciantes de YouTube evalúan con recelo. El video conserva una visibilidad estándar, pero sugerimos sustituirlos para maximizar el alcance en los feeds.";
+      } else {
+        scoreDisplay.style.color = "#EF4444"; // Rojo peligro
+        scoreBadge.textContent = "Riesgo de Penalización";
+        scoreBadge.style.background = "#FEE2E2";
+        scoreBadge.style.color = "#991B1B";
+        analysisSummary.textContent = "Atención: Tu introducción contiene palabras altamente penalizadas por el robot clasificador. El alcance de tu video podría ser fuertemente reprimido o desmonetizado en cuestión de minutos tras la publicación.";
+      }
+
+      // 4. Renderizado Dinámico de Alertas en Tarjetas RENDER-CARD-NODE
+      alertsContainer.innerHTML = "";
+
+      if (detectedAlerts.length === 0) {
+        // Estado sin alertas
+        alertsContainer.innerHTML = `
+          <div class="render-card-node" style="padding: 24px; border: 1px dashed var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02); text-align: center;">
+            <p style="font-size: 14px; color: var(--text-dim); margin: 0; font-weight: 500;">
+              ✨ No se han encontrado palabras penalizadas en tu texto. ¡Todo listo para subir!
+            </p>
+          </div>
+        `;
+      } else {
+        // Agregar tarjetas dinámicas estilo render-card-node para cada alerta
+        detectedAlerts.forEach(alertItem => {
+          const cardNode = document.createElement("div");
+          cardNode.className = "render-card-node";
+          cardNode.style.cssText = "box-sizing: border-box; padding: 18px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 12px; transition: all 0.2s ease;";
+
+          // Estructurar el HTML de la tarjeta
+          cardNode.innerHTML = `
+            <!-- Cabecera de Alerta -->
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="render-pill-item" style="background: \${alertItem.bgColor}; color: \${alertItem.textColor}; font-weight: 600; font-size: 11px; padding: 2px 8px;">
+                  \${alertItem.risk} Riesgo
+                </span>
+                <span style="font-weight: 600; font-size: 14px; color: var(--text);">
+                  Término: <span style="font-family: var(--mono); color: \${alertItem.textColor};">\${alertItem.wordMatched}</span>
+                </span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); font-family: var(--mono);">
+                Frecuencia: \${alertItem.count} \${alertItem.count === 1 ? 'coincidencia' : 'coincidencias'}
+              </div>
+            </div>
+
+            <!-- Razón del problema -->
+            <div style="font-size: 12.5px; line-height: 1.5; color: var(--text-dim);">
+              <span class="panel-label" style="display: block; font-size: 10px; margin-bottom: 2px; color: var(--text-muted);">Impacto Algorítmico</span>
+              \${alertItem.reason}
+            </div>
+
+            <!-- Sugerencias de Reemplazos / Sinónimos -->
+            <div style="border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px;">
+              <span class="panel-label" style="display: block; font-size: 10px; margin-bottom: 6px; color: var(--text-muted);">Alternativas Estilo Apple (Monetizables y Seguras)</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="synonymsWrapper">
+                \${alertItem.synonyms.map(syn => `
+                  <span class="render-pill-item" style="font-size: 11px; cursor: pointer; transition: all 0.2s;" onclick="replaceWordInInput('\${alertItem.wordMatched}', '\${syn}')" title="Haz clic para reemplazar automáticamente en tu guión">
+                    ➕ \${syn}
+                  </span>
+                `).join('')}
+              </div>
+            </div>
+          `;
+
+          alertsContainer.appendChild(cardNode);
+        });
+      }
+    }
+
+    // 5. Función Callback Global para reemplazar palabras desde las píldoras renderizadas
+    window.replaceWordInInput = function(oldWord, newWord) {
+      const currentText = scriptInput.value;
+      const regex = new RegExp(oldWord, 'gi');
+      scriptInput.value = currentText.replace(regex, newWord);
+      
+      // Lanzar recálculo de caracteres y rehacer diagnóstico al vuelo
+      const len = scriptInput.value.length;
+      charCounter.textContent = `${len} ${len === 1 ? 'caracter' : 'caracteres'}`;
+      executeEvaluation(scriptInput.value);
+    };
+
+  })();
+</script>
   </div>
 
   <!-- COLUMNA DERECHA: MONITOR DE TENDENCIAS EN VIVO -->
