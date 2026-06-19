@@ -28,15 +28,20 @@
       line-height: 1.6;
     }
 
+    /* ── NAVEGACIÓN CORREGIDA ── */
     .blur-nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
       border-bottom: 1px solid var(--border);
       padding: 0 32px; height: 54px;
-      display: flex; align-items: center;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .btn-back { font-size: 0.75rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+    .nav-brand { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
+    .nav-links { display: flex; list-style: none; gap: 24px; margin: 0; padding: 0; }
+    .nav-links a { font-size: 0.75rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { color: var(--accent) !important; font-weight: 600; }
 
     .article-container { max-width: 760px; margin: 60px auto; padding: 0 24px; }
     
@@ -53,7 +58,6 @@
     .article-body p { font-size: 0.95rem; color: var(--text); margin-bottom: 24px; text-align: justify; }
     .article-body h2 { font-size: 1.4rem; font-weight: 700; margin: 40px 0 16px; letter-spacing: -0.01em; }
 
-    /* RECUADROS REFORMADOS (ESTILO APPLE PREMIUM) */
     .premium-quote {
       margin: 32px 0; padding: 20px 24px;
       background: var(--canvas);
@@ -74,7 +78,7 @@
 </head>
 <body>
 
-  <nav class="blur-nav">
+<nav class="blur-nav">
   <div class="nav-brand">Portal de Comunicación Digital</div>
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
