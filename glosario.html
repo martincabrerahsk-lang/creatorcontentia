@@ -38,7 +38,7 @@
       display: flex; align-items: center; justify-content: space-between;
     }
     .nav-brand { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
-    .nav-links { display: flex; list-style: none; gap: 24px; }
+    .nav-links { display: flex; list-style: none; gap: 24px; align-items: center; margin: 0; padding: 0; }
     .nav-links a { font-size: 0.75rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; font-weight: 500; }
     .nav-links a:hover { color: var(--text); }
 
@@ -77,6 +77,14 @@
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
     <li><a href="glosario.html" style="color: var(--text); font-weight: 600;">Glosario Técnico</a></li>
+    <li><a href="index.html#feed-anchor">Notas</a></li>
+    <li>
+      <a href="https://ai.studio/apps/54d87221-1b1e-46db-8f16-a37f66520012?fullscreenApplet=true" 
+       target="_blank" rel="noopener noreferrer"
+       style="display:inline-block; padding: 6px 14px; font-size: 0.7rem; border-radius: 20px; text-align:center; text-decoration:none; background:var(--text); color: #ffffff; font-weight: 600; opacity:0.9; transition: opacity 0.2s;">
+      Abrir aplicación en AI Studio ↗
+      </a>
+    </li>
   </ul>
 </nav>
 
@@ -88,7 +96,6 @@
 <main class="glossary-container">
   <div class="glossary-grid">
     
-    <!-- TARJETA 1 -->
     <div class="term-card">
       <div class="term-header">
         <h2 class="term-title">CTR (Click-Through Rate)</h2>
@@ -97,7 +104,6 @@
       <p class="term-body">Es el <strong>porcentaje de clics</strong>. Mide cuántas personas hicieron clic en un video después de ver la miniatura y el título en su pantalla. Un CTR alto indica que el "gancho" visual y textual es efectivo.</p>
     </div>
 
-    <!-- TARJETA 2 -->
     <div class="term-card">
       <div class="term-header">
         <h2 class="term-title">AVD (Average View Duration)</h2>
@@ -106,7 +112,6 @@
       <p class="term-body">La <strong>duración media de visualización</strong>. Indica el tiempo promedio exacto que los usuarios pasan viendo un contenido antes de abandonarlo. Es el principal factor que los algoritmos usan para recomendar contenido hoy en día.</p>
     </div>
 
-    <!-- TARJETA 3 -->
     <div class="term-card">
       <div class="term-header">
         <h2 class="term-title">Shadowban</h2>
@@ -115,7 +120,6 @@
       <p class="term-body">Ocurre cuando una plataforma <strong>limita silenciosamente el alcance</strong> de una cuenta por infringir normas o usar tácticas de spam. El creador puede seguir publicando, pero su contenido deja de aparecer en el "feed" de recomendaciones para no seguidores.</p>
     </div>
 
-    <!-- TARJETA 4 -->
     <div class="term-card">
       <div class="term-header">
         <h2 class="term-title">Retención Cruzada</h2>
@@ -124,7 +128,6 @@
       <p class="term-body">Es la capacidad de <strong>trasladar audiencia</strong> desde una plataforma de descubrimiento rápido (como TikTok) hacia una plataforma de formato largo y consolidación (como YouTube), sin perder el interés del usuario en el salto.</p>
     </div>
 
-    <!-- TARJETA 5 -->
     <div class="term-card">
       <div class="term-header">
         <h2 class="term-title">Burnout Creativo</h2>
@@ -133,7 +136,6 @@
       <p class="term-body">Estado de agotamiento físico, mental y emocional causado por la presión sostenida de mantener un volumen de publicación diario para <strong>satisfacer la demanda del algoritmo</strong>, perdiendo el propósito original.</p>
     </div>
 
-    <!-- TARJETA 6 -->
     <div class="term-card">
       <div class="term-header">
         <h2 class="term-title">CPM / RPM</h2>
